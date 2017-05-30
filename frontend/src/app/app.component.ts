@@ -1,7 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ValuesService } from './services/values.service';
 
 @Component({
   selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1>`,
+  templateUrl: './templates/app.component.html',
+  providers: [ValuesService]
 })
-export class AppComponent  { name = 'Angular'; }
+
+export class AppComponent implements OnInit  {
+	name = 'Angular';
+	values: string[];
+
+	constructor(private valuesService: ValuesService){
+		this.values = ['123', '4646'];
+	}
+
+	ngOnInit(): void{
+		this.valuesService.getValues()
+			.then(values => {
+				this.values = values;
+			});
+	}
+}
